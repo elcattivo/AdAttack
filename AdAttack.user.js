@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            AdAttack
 // @namespace       https://github.com/elcattivo/AdAttack
-// @version         0.2.0-alpha
+// @version         0.3.0-alpha
 // @description     Removes ads shown by AdDefend.
 // @author          elcattivo
 // @copyright       2016, El Cattivo (http://byteland.cc)
@@ -27,7 +27,9 @@
         match,
         observer;
 
-    observer = new WebKitMutationObserver(function (mutations) {
+    MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
+
+    observer = new MutationObserver(function (mutations) {
         mutations.forEach(function (mutation) {
             for(var i = 0; i < mutation.addedNodes.length; i++) {
                 var node = mutation.addedNodes[i];
