@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            AdAttack
 // @namespace       https://github.com/elcattivo/AdAttack
-// @version         0.1.1-alpha
+// @version         0.2.0-alpha
 // @description     Removes ads shown by AdDefend.
 // @author          elcattivo
 // @copyright       2016, El Cattivo (http://byteland.cc)

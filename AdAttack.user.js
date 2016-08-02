@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name            AdAttack
 // @namespace       https://github.com/elcattivo/AdAttack
-// @version         0.1.1-alpha
+// @version         0.2.0-alpha
 // @description     Removes ads shown by AdDefend.
 // @author          elcattivo
 // @copyright       2016, El Cattivo (http://byteland.cc)
@@ -18,7 +18,8 @@
 (function() {
     'use strict';
 
-    var idPattern = /[a-zA-z]{1}\([a-zA-z]{1}\,\"([a-zA-Z]{2,})\s*\"\)/g,
+    var scriptPattern = /\/\* [0-9a-f]{32} \*\/\s*$/,
+        idPattern = /[a-zA-z]{1}\([a-zA-z]{1}\,\"([a-zA-Z]{2,})\s*\"\)/g,
         ids = {},
         isInitialized = false,
         cachedNodes = [],
@@ -33,7 +34,7 @@
 
                 if (isInitialized === true) {
                     for (var id in ids) {
-                        if (node.id === id || node.classList.contains(id)) {
+                        if (node.id === id || (node.classList && node.classList.contains(id))) {
                             node.parentNode.removeChild(node);
                             break;
                         }
@@ -54,10 +55,13 @@
     Array.from(document.scripts).forEach(function (script) {
         scriptContent = script.innerHTML;
 
-        match = idPattern.exec(scriptContent);
-        while (match !== null) {
-            ids[match[1].trim()] = true;
+        if (scriptPattern.test(scriptContent)) {
             match = idPattern.exec(scriptContent);
+
+            while (match !== null) {
+                ids[match[1].trim()] = true;
+                match = idPattern.exec(scriptContent);
+            }
         }
     });
 
